@@ -19,7 +19,7 @@ func (b *Bot) SetHandlers() error {
 			continue
 		}
 
-		b.HandleCommand(update.Message.Text)
+		b.HandleCommand(update)
 
 		// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
@@ -31,15 +31,19 @@ func (b *Bot) SetHandlers() error {
 	return nil
 }
 
-func (b *Bot) HandleCommand(msg string) {
-	method, ok := fetchCommand(msg)
+func (b *Bot) HandleCommand(upd tgbotapi.Update) {
+	method, ok := fetchCommand(upd.Message.Text)
 
 	if ok {
 		switch method {
 		case "/start":
-
+			b.start(upd)
 		case "/kek":
 
 		}
 	}
+}
+
+func (b *Bot) start(upd tgbotapi.Update) {
+	fmt.Println("\n\n\n\nupd.Message.From.ID ", upd.Message.From.ID)
 }
