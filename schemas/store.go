@@ -42,4 +42,5 @@ type User struct {
 	ShoeSizes              []int
 	StyleConcepts          []int
 	FavoriteTypesOfClothes []int
+	Seen                   bool
 }

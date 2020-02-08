@@ -18,14 +18,7 @@ func (b *Bot) SetHandlers() error {
 		if update.Message == nil { // ignore any non-Message Updates
 			continue
 		}
-
 		b.HandleCommand(update)
-
-		// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
-		// msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-
-		// bot.Send(msg)
 	}
 
 	return nil
@@ -45,5 +38,9 @@ func (b *Bot) HandleCommand(upd tgbotapi.Update) {
 }
 
 func (b *Bot) start(upd tgbotapi.Update) {
-	fmt.Println("\n\n\n\nupd.Message.From.ID ", upd.Message.From.ID)
+	// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+	// msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+
+	// bot.Send(msg)
 }
