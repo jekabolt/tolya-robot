@@ -20,7 +20,6 @@ const (
 const (
 	CasualMassMarket = iota
 	StreetWear
-	Premium
 	Classic
 	AvantGarde
 )

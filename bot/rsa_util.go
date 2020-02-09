@@ -168,7 +168,6 @@ func ReadFile(path string) ([]byte, error) {
 	return ioutil.ReadAll(file)
 }
 
-func UnBase64(str string) []byte {
-	data, _ := base64.StdEncoding.DecodeString(str)
-	return data
+func UnBase64(str string) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(str)
 }

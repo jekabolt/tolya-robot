@@ -2,6 +2,7 @@ package bot
 
 import (
 	"fmt"
+	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
@@ -31,16 +32,21 @@ func (b *Bot) HandleCommand(upd tgbotapi.Update) {
 		switch method {
 		case "/start":
 			b.start(upd)
-		case "/kek":
+		case "/info":
 
 		}
 	}
 }
 
 func (b *Bot) start(upd tgbotapi.Update) {
+
+	link, err := b.generateLink(upd.Message.From.String(), "api/v1.0/submit")
+	if err != nil {
+		log.Printf("start:generateLink:err: [%s]", err.Error())
+	}
 	// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-	// msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, link)
 
-	// bot.Send(msg)
+	b.Bot.Send(msg)
 }
