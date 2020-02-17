@@ -20,9 +20,13 @@ func (s *Server) Serve() error {
 	r.HandleFunc("/", s.healthCheck)
 	r.Options("/*", handleOptions)
 
+	r.Route("/static", func(r chi.Router) {
+		r.Get("/submit", s.submitHTML)
+		r.Get("/submit.js", s.submitJS)
+	})
+
 	r.Route("/api/v1.0", func(r chi.Router) {
 		r.Use(middleware.Logger)
-		r.Post("/seen/{id}", s.seen)
 		r.Post("/submit/{id}", s.submit)
 	})
 

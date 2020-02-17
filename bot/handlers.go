@@ -1,52 +1,37 @@
 package bot
 
 import (
-	"fmt"
-	"log"
+	"strconv"
+
+	"github.com/jekabolt/tolya-robot/schemas"
+
+	"github.com/aws/aws-sdk-go/aws"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-func (b *Bot) SetHandlers() error {
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
-	updates, err := b.Bot.GetUpdatesChan(u)
-	if err != nil {
-		return fmt.Errorf("SetHandlers:GetUpdatesChan: err: [%s]", err.Error())
-	}
-
-	for update := range updates {
-		if update.Message == nil { // ignore any non-Message Updates
-			continue
-		}
-		b.HandleCommand(update)
-	}
-
-	return nil
-}
-
-func (b *Bot) HandleCommand(upd tgbotapi.Update) {
-	method, ok := fetchCommand(upd.Message.Text)
-
-	if ok {
-		switch method {
-		case "/start":
-			b.start(upd)
-		case "/info":
-
-		}
-	}
-}
-
 func (b *Bot) start(upd tgbotapi.Update) {
 
-	link, err := b.generateLink(upd.Message.From.String(), "api/v1.0/submit")
-	if err != nil {
-		log.Printf("start:generateLink:err: [%s]", err.Error())
-	}
-	// log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+	b.DB.InitialSubmit(&schemas.TGUser{
+		User:      upd.Message.From,
+		ChatID:    upd.Message.Chat.ID,
+		Submitted: false,
+	})
+
+	link := b.BaseURL + "api/v1.0/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
 
 	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, link)
+
+	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
+		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
+			[]tgbotapi.InlineKeyboardButton{
+				tgbotapi.InlineKeyboardButton{Text: "Выбрать одежду",
+					URL: aws.String(link),
+				},
+			},
+		},
+	}
+	msg.Text = startMessage
 
 	b.Bot.Send(msg)
 }

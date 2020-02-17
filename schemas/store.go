@@ -1,9 +1,16 @@
 package schemas
 
+import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+
 var Genders = map[string]int{
 	"male":   0,
 	"female": 1,
+	"unisex": 2,
 }
+
+var DBName = "users"
+var ConsumersCollectionName = "consumers"
+var JoinedCollectionName = "joined"
 
 // top sizes
 const (
@@ -34,12 +41,19 @@ const (
 	Accessories
 )
 
-type User struct {
-	Gender                 int
-	TopSizes               []int
-	BottomSizes            []int
-	ShoeSizes              []int
-	StyleConcepts          []int
-	FavoriteTypesOfClothes []int
-	Seen                   bool
+type Consumer struct {
+	ChatID                 string `json:"chatID" bson:"chatID"`
+	LAT                    int    `json:"lat" bson:"gender"`
+	Gender                 int    `json:"gender" bson:"gender"`
+	TopSizes               []int  `json:"topSizes" bson:"topSizes"`
+	BottomSizes            []int  `json:"bottomSizes" bson:"bottomSizes"`
+	ShoeSizes              []int  `json:"shoeSizes" bson:"shoeSizes"`
+	StyleConcepts          []int  `json:"styleConcepts" bson:"styleConcepts"`
+	FavoriteTypesOfClothes []int  `json:"favoriteTypesOfClothes" bson:"favoriteTypesOfClothes"`
+}
+
+type TGUser struct {
+	User      *tgbotapi.User `json:"user" bson:"user"`
+	Submitted bool           `json:"submitted" bson:"chatID"`
+	ChatID    int64          `json:"chatID" bson:"chatID"`
 }

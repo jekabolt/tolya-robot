@@ -4,36 +4,28 @@ import (
 	"log"
 
 	"github.com/caarlos0/env"
-	"github.com/jekabolt/tolya-robot/bot"
-	"github.com/jekabolt/tolya-robot/server"
+	"github.com/jekabolt/tolya-robot/configs"
 )
 
 func main() {
 	log.SetFlags(log.Lshortfile)
-	cfg := &bot.Config{}
+	cfg := &configs.Config{}
 	err := env.Parse(cfg)
 	if err != nil {
 		log.Fatalf("main:env.Parse [%v]", err.Error())
 	}
 
-	b, err := cfg.Init()
+	b, err := cfg.InitBot()
 	if err != nil {
-		log.Fatalf("main:cfg.Init [%v]", err.Error())
+		log.Fatalf("main:cfg.InitBot [%v]", err.Error())
 	}
 
 	go b.SetHandlers()
 
-	server := &server.Server{}
-	err = env.Parse(server)
+	s, err := cfg.InitServer()
 	if err != nil {
-		log.Fatalf("main:env.Parse [%v]", err.Error())
+		log.Fatalf("main:cfg.InitSever [%v]", err.Error())
 	}
-	err = server.Init()
-	if err != nil {
-		log.Fatalf("main:b.SetHandlers [%v]", err.Error())
-	}
-	log.Fatalf("server.Serve():err: [%s]", server.Serve())
-
-	// time.Sleep(time.Minute * 100)
+	log.Fatalf("server.Serve():err: [%s]", s.Serve())
 
 }

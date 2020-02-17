@@ -1,14 +1,11 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/jekabolt/tolya-robot/schemas"
 )
 
 func setCORSHeaders(w http.ResponseWriter) {
@@ -26,47 +23,55 @@ func (s *Server) healthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
-func (s *Server) seen(w http.ResponseWriter, r *http.Request) {
-	setCORSHeaders(w)
-	ciphertextBase64UrlEncoded := chi.URLParam(r, "id")
-
-	id, err := s.ciphertextDecode(ciphertextBase64UrlEncoded)
-	if err != nil {
-		log.Printf("seen:ciphertextDecode:err [%v]", err.Error())
-	}
-
-	//TODO: mongo first in
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(id)
-}
-
 func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 	setCORSHeaders(w)
-	ciphertextBase64UrlEncoded := chi.URLParam(r, "id")
+	chatID := chi.URLParam(r, "id")
 
-	id, err := s.ciphertextDecode(ciphertextBase64UrlEncoded)
-	if err != nil {
-		log.Printf("submit:ciphertextDecode:err [%v]", err.Error())
-	}
+	if s.DB.IsJoined(chatID) {
+		consumer, err := UnmarshalConsumer(r.Body)
+		if err != nil {
+			log.Printf("submit:UnmarshalConsumer: [%v]", err.Error())
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+		s.DB.SubmitConsumer(consumer)
+		if err != nil {
+			log.Printf("submit:s.DB.SubmitConsumer: [%v]", err.Error())
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
 
-	u := &schemas.User{}
-	rawBody, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Printf("submit:ioutil.ReadAll:err [%v]", err.Error())
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	err = json.Unmarshal(rawBody, u)
-	if err != nil {
-		log.Printf("generatePaymentURL:json.Unmarshal: [%v]", err.Error())
-		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
+		s.DB.UpdateSubmitted(chatID)
+		if err != nil {
+			log.Printf("submit:s.DB.UpdateSubmitted: [%v]", err.Error())
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
 
-	fmt.Println(u)
-	//TODO: mongo set all info
+	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write(id)
+	w.Write([]byte(chatID))
+}
+
+func (s *Server) submitHTML(w http.ResponseWriter, r *http.Request) {
+	f, err := ioutil.ReadFile(s.SubmitHTMLPath)
+	if err != nil {
+		log.Printf("callbackHTML:ioutil.ReadFile: [%v]", err.Error())
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(f)
+}
+
+func (s *Server) submitJS(w http.ResponseWriter, r *http.Request) {
+	f, err := ioutil.ReadFile(s.SubmitJSPath)
+	if err != nil {
+		log.Printf("callbackJS:ioutil.ReadFile: [%v]", err.Error())
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(f)
 }

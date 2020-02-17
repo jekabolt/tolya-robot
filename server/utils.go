@@ -2,23 +2,23 @@ package server
 
 import (
 	"fmt"
-	"net/url"
+	"io"
 
-	"github.com/jekabolt/tolya-robot/bot"
+	"encoding/json"
+	"io/ioutil"
+
+	"github.com/jekabolt/tolya-robot/schemas"
 )
 
-func (s *Server) ciphertextDecode(ciphertextBase64UrlEncoded string) ([]byte, error) {
-	ciphertextBase64, err := url.PathUnescape(ciphertextBase64UrlEncoded)
+func UnmarshalConsumer(body io.ReadCloser) (*schemas.Consumer, error) {
+	consumer := &schemas.Consumer{}
+	rawBody, err := ioutil.ReadAll(body)
 	if err != nil {
-		return nil, fmt.Errorf("ciphertextDecode:url.PathUnescape:err [%v]", err.Error())
+		return nil, fmt.Errorf("UnmarshalConsumer:ioutil.ReadAll:err [%v]", err.Error())
 	}
-	ciphertext, err := bot.UnBase64(ciphertextBase64)
+	err = json.Unmarshal(rawBody, consumer)
 	if err != nil {
-		return nil, fmt.Errorf("ciphertextDecode:url.UnBase64:err [%v]", err.Error())
+		return nil, fmt.Errorf("UnmarshalConsumer:json.Unmarshal: [%v]", err.Error())
 	}
-	id, err := bot.DecryptWithPrivateKey(ciphertext, s.DecryptKey)
-	if err != nil {
-		return nil, fmt.Errorf("ciphertextDecode:url.PathUnescape:err [%v]", err.Error())
-	}
-	return id, err
+	return consumer, nil
 }
