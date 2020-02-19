@@ -9,196 +9,168 @@
 </head>
 
 <body>
-    <header class="header">
-
-    </header>
-
-    <section class="content">
-        <ul class="list">
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox" checked>
-                Мужская
-          </label>
-            </li>
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-                Женская
-          </label>
-            </li>
-        </ul>
-    </section>
-
-
-    <section class="content">
-        top size
-        <ul class="list">
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox" checked>
-              XXS
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XS
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              S
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              M
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XL
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XXL
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XXXL
-          </label>
-            </li>
-        </ul>
-    </section>
-
-    <section class="content">
-        bottom size
-        <ul class="list">
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XS
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              S
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              M
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XL
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-              XXL
-          </label>
-            </li>
-        </ul>
-    </section>
-
-    <section class="content">
-        <ul class="list">
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox" checked>
-                Мужская
-          </label>
-            </li>
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-                Женская
-          </label>
-            </li>
-        </ul>
-    </section>
-
-
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4 offset-4">
-                <select class="form-control multiple-select" multiple>
-                    <option class="behavioral-health-social-work" value="Behavioral-Health-Social-Work">Behavioral Health Social Work</option>
-                    <option class="executive-administration" value="Executive-Administration">Executive/Administration</option>
-                    <option class="military" value="Military">Military</option>
-                    <option class="non-clinical" value="Non-Clinical">Non-Clinical</option>
-                    <option class="nurse-practitioner" value="Nurse-Practitioner">Nurse Practitioner</option>
-                    <option class="radiology" value="Radiology">Radiology</option>
-                    <option class="rn" value="RN">RN</option>
-                    <option class="starn-gn" value="StaRN-GN">StaRN/GN</option>
-                    <option class="tech-nursing-support" value="Tech-Nursing-Support">Tech/Nursing Support</option>
-                    <option class="therapy" value="Therapy">Therapy</option>
-                </select>
+        <h1 class="title">Заполните анкету</h1>
+
+        <form>
+            <p>Пол</p>
+            <div class="checkbox-wrapper">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option11" value="male" />
+                    <label class="checkbox__label" for="option11">Мужской</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option12" value="female" />
+                    <label class="checkbox__label" for="option12">Женский</label>
+                </div>
             </div>
-        </div>
+
+            <p>Стиль одежды</p>
+            <div class="checkbox-wrapper">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="cloType[]" id="option21" value="1" />
+                    <label class="checkbox__label" for="option21">Кэжуал-массмаркет</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="cloType[]" id="option22" value="2" />
+                    <label class="checkbox__label" for="option22">Стритвир</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="cloType[]" id="option23" value="3" />
+                    <label class="checkbox__label" for="option23">Классика</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="cloType[]" id="option24" value="4" />
+                    <label class="checkbox__label" for="option24">Авангард</label>
+                </div>
+            </div>
+
+            <p>Размер верхней одежды</p>
+            <div class="checkbox-wrapper">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option31" value="1" />
+                    <label class="checkbox__label" for="option31">XS</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option32" value="2" />
+                    <label class="checkbox__label" for="option32">S</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option33" value="3" />
+                    <label class="checkbox__label" for="option33">M</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option34" value="4" />
+                    <label class="checkbox__label" for="option34">L</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option35" value="5" />
+                    <label class="checkbox__label" for="option35">XL</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="topSize[]" id="option36" value="6" />
+                    <label class="checkbox__label" for="option36">XXL</label>
+                </div>
+            </div>
+
+            <p>Размер низ</p>
+            <div class="checkbox-wrapper">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option41" value="1" />
+                    <label class="checkbox__label" for="option41">XS</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option42" value="2" />
+                    <label class="checkbox__label" for="option42">S</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option43" value="3" />
+                    <label class="checkbox__label" for="option43">M</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option44" value="4" />
+                    <label class="checkbox__label" for="option44">L</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option45" value="5" />
+                    <label class="checkbox__label" for="option45">XL</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="bottomSize[]" id="option46" value="6" />
+                    <label class="checkbox__label" for="option46">XXL</label>
+                </div>
+            </div>
+
+            <p>Размер обуви</p>
+            <div class="checkbox-wrapper">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option51" value="34" />
+                    <label class="checkbox__label" for="option51">34</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option52" value="35" />
+                    <label class="checkbox__label" for="option52">35</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option53" value="36" />
+                    <label class="checkbox__label" for="option53">36</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option54" value="37" />
+                    <label class="checkbox__label" for="option54">37</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option55" value="38" />
+                    <label class="checkbox__label" for="option55">38</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option56" value="39" />
+                    <label class="checkbox__label" for="option56">39</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option57" value="40" />
+                    <label class="checkbox__label" for="option57">40</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option58" value="41" />
+                    <label class="checkbox__label" for="option58">41</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option59" value="42" />
+                    <label class="checkbox__label" for="option59">42</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option510" value="43" />
+                    <label class="checkbox__label" for="option510">43</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option511" value="44" />
+                    <label class="checkbox__label" for="option511">44</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option512" value="45" />
+                    <label class="checkbox__label" for="option512">45</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option513" value="46" />
+                    <label class="checkbox__label" for="option513">46</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option514" value="47" />
+                    <label class="checkbox__label" for="option514">47</label>
+                </div>
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="shoeSize[]" id="option515" value="48" />
+                    <label class="checkbox__label" for="option515">48</label>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="button" type="submit">View checked (open console browser)</button>
+            </div>
+        </form>
     </div>
-
-    <section class="content">
-        <ul class="list">
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox" checked>
-                Кэжуал-массмаркет
-          </label>
-            </li>
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-                Стритвир
-          </label>
-            </li>
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-                Классика
-          </label>
-            </li>
-
-            <li class="list__item">
-                <label class="label--checkbox">
-              <input type="checkbox" class="checkbox">
-                Авангард
-          </label>
-            </li>
-        </ul>
-    </section>
-
-    <a href="https://www.twitter.com/sambego" target="_blank" class="button--round button--sticky">
-        <i class="fa fa-twitter"></i>
-    </a>
-
     <script src="js/index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </body>
-
 
 </html>
