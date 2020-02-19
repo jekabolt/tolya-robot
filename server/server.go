@@ -12,4 +12,5 @@ type Server struct {
 	Port           string
 	SubmitHTMLPath string
 	SubmitJSPath   string
+	SubmitCSSPath  string
 }

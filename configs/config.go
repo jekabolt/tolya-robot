@@ -23,6 +23,7 @@ type Config struct {
 	ServerPort      string `env:"SERVER_PORT" envDefault:"8080"`
 	SubmitHTMLPath  string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
 	SubmitJSPath    string `env:"SUBMIT_JS_PATH" envDefault:"./web/js/index.js"`
+	SubmitCSSPath   string `env:"SUBMIT_JS_PATH" envDefault:"./web/css/index.css"`
 	BotDebug        bool   `env:"BOT_DEBUG" envDefault:"true"`
 }
 
@@ -46,7 +47,11 @@ func (c *Config) InitBot() (*bot.Bot, error) {
 }
 
 func (c *Config) InitServer() (*server.Server, error) {
-	s := &server.Server{}
+	s := &server.Server{
+		SubmitHTMLPath: c.SubmitHTMLPath,
+		SubmitJSPath:   c.SubmitJSPath,
+		SubmitCSSPath:  c.SubmitCSSPath,
+	}
 
 	db, err := c.InitDB()
 	if err != nil {

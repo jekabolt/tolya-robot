@@ -57,7 +57,7 @@ func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 func (s *Server) submitHTML(w http.ResponseWriter, r *http.Request) {
 	f, err := ioutil.ReadFile(s.SubmitHTMLPath)
 	if err != nil {
-		log.Printf("callbackHTML:ioutil.ReadFile: [%v]", err.Error())
+		log.Printf("submitHTML:ioutil.ReadFile: [%v]", err.Error())
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
@@ -68,7 +68,18 @@ func (s *Server) submitHTML(w http.ResponseWriter, r *http.Request) {
 func (s *Server) submitJS(w http.ResponseWriter, r *http.Request) {
 	f, err := ioutil.ReadFile(s.SubmitJSPath)
 	if err != nil {
-		log.Printf("callbackJS:ioutil.ReadFile: [%v]", err.Error())
+		log.Printf("submitJS:ioutil.ReadFile: [%v]", err.Error())
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(f)
+}
+
+func (s *Server) submitCSS(w http.ResponseWriter, r *http.Request) {
+	f, err := ioutil.ReadFile(s.SubmitCSSPath)
+	if err != nil {
+		log.Printf("submitCSS:ioutil.ReadFile: [%v]", err.Error())
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
