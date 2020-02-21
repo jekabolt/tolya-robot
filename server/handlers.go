@@ -34,20 +34,12 @@ func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
-		s.DB.SubmitConsumer(consumer)
+		err = s.DB.SubmitConsumer(consumer)
 		if err != nil {
 			log.Printf("submit:s.DB.SubmitConsumer: [%v]", err.Error())
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
-
-		s.DB.UpdateSubmitted(chatID)
-		if err != nil {
-			log.Printf("submit:s.DB.UpdateSubmitted: [%v]", err.Error())
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-
 	}
 
 	w.WriteHeader(http.StatusOK)
@@ -83,6 +75,7 @@ func (s *Server) submitCSS(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-type", "text/css")
 	w.WriteHeader(http.StatusOK)
 	w.Write(f)
 }

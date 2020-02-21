@@ -18,7 +18,7 @@ func (b *Bot) start(upd tgbotapi.Update) {
 		Submitted: false,
 	})
 
-	link := b.BaseURL + "api/v1.0/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
+	link := b.BaseURL + "static/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
 
 	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, link)
 

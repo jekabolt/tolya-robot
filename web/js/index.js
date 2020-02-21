@@ -1,6 +1,8 @@
 let form = document.querySelector('form');
 
 form.addEventListener('submit', handleSubmit);
+path = window.location.pathname.split('/')
+id = path[path.length - 1]
 
 function handleSubmit() {
     event.preventDefault();
@@ -17,8 +19,31 @@ function handleSubmit() {
             checked[fieldName] = [];
         }
 
-        checked[fieldName].push(field.value);
+        checked[fieldName].push(parseInt(field.value));
     });
 
-    console.log(checked);
+    url = "http://localhost:8080/api/v1.0/submit/" + id
+    console.log(url);
+    console.log(JSON.stringify(checked));
+
+    createRequest(url, JSON.stringify(checked))
+}
+
+createRequest = function(url, postData) {
+
+    var method = "POST";
+    var shouldBeAsync = true;
+    var request = new XMLHttpRequest();
+    request.onload = function() {
+        var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
+        var data = request.responseText; // Returned data, e.g., an HTML document.
+        console.log("status:", status);
+        console.log("data:", data);
+    }
+
+    request.open(method, url, shouldBeAsync);
+
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    request.send(postData);
 }

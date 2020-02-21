@@ -5,7 +5,6 @@ import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 var Genders = map[string]int{
 	"male":   0,
 	"female": 1,
-	"unisex": 2,
 }
 
 var DBName = "users"
@@ -44,7 +43,7 @@ const (
 type Consumer struct {
 	ChatID                 string `json:"chatID" bson:"chatID"`
 	LAT                    int    `json:"lat" bson:"gender"`
-	Gender                 int    `json:"gender" bson:"gender"`
+	Gender                 []int  `json:"gender" bson:"gender"`
 	TopSizes               []int  `json:"topSizes" bson:"topSizes"`
 	BottomSizes            []int  `json:"bottomSizes" bson:"bottomSizes"`
 	ShoeSizes              []int  `json:"shoeSizes" bson:"shoeSizes"`
