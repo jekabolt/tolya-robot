@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="http://localhost:8080/static/submit.css">
+    <title>Анкета</title>
+    <link rel="stylesheet" href="http://192.168.1.250:8080/static/submit.css">
 </head>
 
 <body>
@@ -16,32 +16,39 @@
             <p>Пол</p>
             <div class="checkbox-wrapper">
                 <div class="checkbox">
-                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option11" value="0" />
+                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option11" onclick="handleGender()" value="0" />
                     <label class="checkbox__label" for="option11">Мужской</label>
                 </div>
                 <div class="checkbox">
-                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option12" value="1" />
+                    <input class="checkbox__input" type="checkbox" name="gender[]" id="option12" onclick="onlyOneFemale()" value="1" />
                     <label class="checkbox__label" for="option12">Женский</label>
                 </div>
             </div>
-
             <p>Стиль одежды</p>
-            <div class="checkbox-wrapper">
-                <div class="checkbox">
+            <div class="checkbox-wrapper" class="flex-container">
+                <div class="flex-item flex-item-1">
                     <input class="checkbox__input" type="checkbox" name="styleConcepts[]" id="option21" value="1" />
-                    <label class="checkbox__label" for="option21">Кэжуал-массмаркет</label>
+                    <label class="checkbox__label" for="option21">Кэжуал-массмаркет
+                      
+                      <img width="500vw" id="option21for" src="https://sun9-43.userapi.com/c206520/v206520576/7de45/IXT8Ikf3Qu4.jpg"></label>
+
                 </div>
-                <div class="checkbox">
+                <div class="flex-item flex-item-2">
                     <input class="checkbox__input" type="checkbox" name="styleConcepts[]" id="option22" value="2" />
-                    <label class="checkbox__label" for="option22">Стритвир</label>
+                    <label class="checkbox__label" for="option22">Стритвир
+                      <img width="500vw" id="option22for" src="https://sun9-7.userapi.com/c206520/v206520576/7de59/YD3CGKz40-w.jpg"></label>
+
                 </div>
-                <div class="checkbox">
+                <div class="flex-item flex-item-3">
                     <input class="checkbox__input" type="checkbox" name="styleConcepts[]" id="option23" value="3" />
-                    <label class="checkbox__label" for="option23">Классика</label>
+                    <label class="checkbox__label" for="option23">Классика
+                      <img width="500vw" id="option23for" src="https://sun9-4.userapi.com/c206520/v206520576/7de31/MPT5YDMrre4.jpg"></label>
+
                 </div>
-                <div class="checkbox">
+                <div class="flex-item flex-item-4">
                     <input class="checkbox__input" type="checkbox" name="styleConcepts[]" id="option24" value="4" />
-                    <label class="checkbox__label" for="option24">Авангард</label>
+                    <label class="checkbox__label" for="option24">Авангард
+                      <img width="500vw" id="option24for" src="https://sun9-41.userapi.com/c206520/v206520576/7de1d/NP3tYhhpjgk.jpg"></label>
                 </div>
             </div>
 
@@ -169,32 +176,33 @@
             <div class="checkbox-wrapper">
                 <div class="checkbox">
                     <input class="checkbox__input" type="checkbox" name="favoriteTypesOfClothes[]" id="option61" value="1" />
-                    <label class="checkbox__label" for="option61">куртки, пальто</label>
+                    <label class="checkbox__label" for="option61" id="option61for">куртки, пальто</label>
                 </div>
                 <div class="checkbox">
                     <input class="checkbox__input" type="checkbox" name="favoriteTypesOfClothes[]" id="option62" value="2" />
-                    <label class="checkbox__label" for="option62">майки, кофты, байки</label>
+                    <label class="checkbox__label" for="option62" id="option62for">майки, кофты, байки</label>
                 </div>
                 <div class="checkbox">
                     <input class="checkbox__input" type="checkbox" name="favoriteTypesOfClothes[]" id="option63" value="3" />
-                    <label class="checkbox__label" for="option63">штаны, шорты, брюки</label>
+                    <label class="checkbox__label" for="option63" id="option63for">штаны, шорты, брюки</label>
                 </div>
                 <div class="checkbox">
                     <input class="checkbox__input" type="checkbox" name="favoriteTypesOfClothes[]" id="option64" value="4" />
-                    <label class="checkbox__label" for="option64">обувь</label>
+                    <label class="checkbox__label" for="option64" id="option64for">обувь</label>
                 </div>
                 <div class="checkbox">
                     <input class="checkbox__input" type="checkbox" name="favoriteTypesOfClothes[]" id="option65" value="5" />
-                    <label class="checkbox__label" for="option65">аксессуары</label>
+                    <label class="checkbox__label" for="option65" id="option65for">аксессуары</label>
                 </div>
             </div>
 
             <div class="text-center">
-                <button class="button" type="submit">View checked (open console browser)</button>
+                <button class="button" type="submit">Продолжить</button>
             </div>
         </form>
     </div>
-    <script src="http://localhost:8080/static/submit.js"></script>
+    <script src="http://192.168.1.250:8080/static/submit.js"></script>
+
 </body>
 
 </html>

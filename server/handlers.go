@@ -40,9 +40,10 @@ func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(chatID))
 	}
-
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusBadRequest)
 	w.Write([]byte(chatID))
 }
 
