@@ -35,7 +35,6 @@ const (
 	Outwear = iota
 	Tops
 	Bottoms
-	Outerwear
 	Footwear
 	Accessories
 )
