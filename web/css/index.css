@@ -3,6 +3,7 @@ body {
     color: #fff;
     font-family: "helvetica";
     font-size: 14px;
+    margin: 0 0 0 0;
     /* white-space: pre-line; */
 }
 
@@ -15,17 +16,17 @@ p {
 .title {
     text-align: center;
     font-size: 48px;
-    margin: 80px 0 60px;
+    /* margin: 80px 0 60px; */
 }
 
 .container {
-    width: 90%;
+    /* width: 90%; */
     max-width: 600px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 .text-center {
-    margin: 30px 0;
+    /* margin: 30px 0; */
     text-align: center;
 }
 
@@ -33,7 +34,7 @@ p {
     border: 1px solid #3e3e3e;
     color: #fff;
     background-color: transparent;
-    padding: 10px 15px;
+    /* padding: 10px 15px; */
     cursor: pointer;
     font-size: 16px;
     font-family: inherit;
@@ -48,6 +49,7 @@ p {
 .checkbox-wrapper {
     display: flex;
     flex-wrap: wrap;
+    width: 100wv;
     /* margin-bottom: 10px; */
 }
 
@@ -76,7 +78,7 @@ p {
 .checkbox__label {
     cursor: pointer;
     display: block;
-    padding: 20px 20px 20px 60px;
+    /* padding: 20px 20px 20px 60px; */
     border: 1px solid #3e3e3e;
     position: relative;
     color: #fff;
@@ -94,7 +96,7 @@ p {
 
 .checkbox__label::before {
     left: 20px;
-    margin-top: -10px;
+    /* margin-top: -10px; */
     width: 20px;
     height: 20px;
     border: 1px solid #3e3e3e;
@@ -102,7 +104,7 @@ p {
 
 .checkbox__label::after {
     left: 26px;
-    margin-top: -4px;
+    /* margin-top: -4px; */
     width: 10px;
     height: 10px;
     background-color: currentColor;
@@ -132,7 +134,7 @@ html {
 
 .flex-container {
     padding: 0;
-    margin: 0;
+    /* margin: 0; */
     border: 1px solid #3e3e3e;
     /* margin: 2em auto; */
     display: -webkit-box;
