@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -26,6 +27,7 @@ func (s *Server) healthCheck(w http.ResponseWriter, r *http.Request) {
 func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 	setCORSHeaders(w)
 	chatID := chi.URLParam(r, "id")
+	fmt.Println("submit:id ", chatID)
 
 	if s.DB.IsJoined(chatID) {
 		consumer, err := UnmarshalConsumer(r.Body)
@@ -34,6 +36,7 @@ func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
+		consumer.ChatID = chatID
 		err = s.DB.SubmitConsumer(consumer)
 		if err != nil {
 			log.Printf("submit:s.DB.SubmitConsumer: [%v]", err.Error())

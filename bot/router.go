@@ -28,11 +28,20 @@ func (b *Bot) HandleCommand(upd tgbotapi.Update) {
 	method, ok := fetchCommand(upd.Message.Text)
 
 	if ok {
+		//commands
 		switch method {
 		case "/start":
 			b.start(upd)
-		case "/info":
-
+		}
+	} else {
+		switch upd.Message.Text {
+		case "FAQ":
+			b.handleFAQ(upd)
+		case "Настройки":
+			b.handleSettings(upd)
+		case "Лучшие предложения":
+			b.handleBestOffers(upd)
 		}
 	}
+
 }

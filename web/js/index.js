@@ -102,13 +102,27 @@ function handleSubmit() {
     }
 
 
-    url = "http://192.168.1.250:8080/api/v1.0/submit/" + id
-    console.log(url);
-    console.log(JSON.stringify(checked));
+    // const url = "http://example.com";
+    url = "http://localhost:8080/api/v1.0/submit/" + id
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(checked),
+    }).then(
+        response => response.text() // .json(), etc.
+    ).then(
+        html => console.log(html)
+    );
 
-    status = createRequest(url, JSON.stringify(checked))
-    window.location.href = "https://telegram.me/tolyahobot"
+
+    // url = "http://localhost:8080/api/v1.0/submit/" + id
+    // console.log(url);
+    // console.log(JSON.stringify(checked));
+
+    // status = createRequest(url, JSON.stringify(checked))
+    // window.location.href = "https://telegram.me/tolyahobot"
 }
+
+
 
 createRequest = function(url, postData) {
     var method = "POST";

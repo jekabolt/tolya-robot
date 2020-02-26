@@ -22,6 +22,7 @@ type Config struct {
 	SubmitHTMLPath string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
 	SubmitJSPath   string `env:"SUBMIT_JS_PATH" envDefault:"./web/js/index.js"`
 	SubmitCSSPath  string `env:"SUBMIT_CSS_PATH" envDefault:"./web/css/index.css"`
+	DBPassword     string `env:"DB_PASSWORD" envDefault:"kek"`
 	BotDebug       bool   `env:"BOT_DEBUG" envDefault:"true"`
 }
 

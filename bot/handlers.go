@@ -11,18 +11,24 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+var mainKeyboard = tgbotapi.NewReplyKeyboard(
+	tgbotapi.NewKeyboardButtonRow(
+		tgbotapi.NewKeyboardButton("FAQ"),
+		tgbotapi.NewKeyboardButton("Настройки"),
+		tgbotapi.NewKeyboardButton("Лучшие предложения"),
+	),
+)
+
+var backKeyboard = tgbotapi.NewReplyKeyboard(
+	tgbotapi.NewKeyboardButtonRow(
+		tgbotapi.NewKeyboardButton("Назад"),
+	),
+)
+
 func (b *Bot) start(upd tgbotapi.Update) {
 
-	var numericKeyboard = tgbotapi.NewReplyKeyboard(
-		tgbotapi.NewKeyboardButtonRow(
-			tgbotapi.NewKeyboardButton("FAQ"),
-			tgbotapi.NewKeyboardButton("Настройки"),
-			tgbotapi.NewKeyboardButton("Лучшие предложения"),
-		),
-	)
-
 	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, upd.Message.Text)
-	msg.ReplyMarkup = numericKeyboard
+	msg.ReplyMarkup = mainKeyboard
 
 	m, err := b.Bot.Send(msg)
 	fmt.Println("m ", m)
@@ -48,6 +54,57 @@ func (b *Bot) start(upd tgbotapi.Update) {
 		},
 	}
 	msg.Text = startMessage
+
+	b.Bot.Send(msg)
+}
+
+func (b *Bot) handleFAQ(upd tgbotapi.Update) {
+
+	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, FAQMessage)
+
+	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
+		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
+			[]tgbotapi.InlineKeyboardButton{
+				tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
+					URL: aws.String("vk.com/dotmarket"),
+				},
+			},
+		},
+	}
+
+	b.Bot.Send(msg)
+}
+
+func (b *Bot) handleSettings(upd tgbotapi.Update) {
+
+	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, settingsMessage)
+	link := b.BaseURL + "static/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
+	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
+		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
+			[]tgbotapi.InlineKeyboardButton{
+				tgbotapi.InlineKeyboardButton{Text: "Изменить настройки",
+					URL: aws.String(link),
+				},
+			},
+		},
+	}
+
+	b.Bot.Send(msg)
+}
+
+func (b *Bot) handleBestOffers(upd tgbotapi.Update) {
+
+	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, FAQMessage)
+
+	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
+		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
+			[]tgbotapi.InlineKeyboardButton{
+				tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
+					URL: aws.String("vk.com/dotmarket"),
+				},
+			},
+		},
+	}
 
 	b.Bot.Send(msg)
 }
