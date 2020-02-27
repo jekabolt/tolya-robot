@@ -17,7 +17,7 @@ import (
 type Config struct {
 	MongoURL       string `env:"MONGO_URL" envDefault:"mongodb://localhost:27017"`
 	BotToken       string `env:"TELEGRAM_BOT_TOKEN" envDefault:""`
-	BaseURL        string `env:"BASE_URL" envDefault:"https://vk.com/"`
+	BaseURL        string `env:"BASE_URL" envDefault:"http://dotmarket.me/"`
 	ServerPort     string `env:"SERVER_PORT" envDefault:"8080"`
 	SubmitHTMLPath string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
 	SubmitJSPath   string `env:"SUBMIT_JS_PATH" envDefault:"./web/js/index.js"`

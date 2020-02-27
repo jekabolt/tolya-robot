@@ -24,6 +24,6 @@ RUN apk --no-cache add curl
 
 COPY --from=0 /go/src/github.com/jekabolt/tolya-robot .
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["/go/src/github.com/jekabolt/tolya-robot/bin/tolya-robot"]

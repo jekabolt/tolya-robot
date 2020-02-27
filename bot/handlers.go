@@ -66,7 +66,7 @@ func (b *Bot) handleFAQ(upd tgbotapi.Update) {
 		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
 			[]tgbotapi.InlineKeyboardButton{
 				tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
-					URL: aws.String("vk.com/dotmarket"),
+					URL: aws.String("https://telegra.ph/Gajd-Voprosy-i-otvety-02-26"),
 				},
 			},
 		},
@@ -100,7 +100,7 @@ func (b *Bot) handleBestOffers(upd tgbotapi.Update) {
 		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
 			[]tgbotapi.InlineKeyboardButton{
 				tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
-					URL: aws.String("vk.com/dotmarket"),
+					URL: aws.String("v"),
 				},
 			},
 		},
