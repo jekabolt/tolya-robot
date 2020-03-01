@@ -94,17 +94,17 @@ func (b *Bot) handleSettings(upd tgbotapi.Update) {
 
 func (b *Bot) handleBestOffers(upd tgbotapi.Update) {
 
-	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, FAQMessage)
+	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, BestOffers)
 
-	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
-		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
-			[]tgbotapi.InlineKeyboardButton{
-				tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
-					URL: aws.String("v"),
-				},
-			},
-		},
-	}
+	// msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
+	// 	InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
+	// 		[]tgbotapi.InlineKeyboardButton{
+	// 			tgbotapi.InlineKeyboardButton{Text: "Ссылка на статью",
+	// 				URL: aws.String("v"),
+	// 			},
+	// 		},
+	// 	},
+	// }
 
 	b.Bot.Send(msg)
 }
