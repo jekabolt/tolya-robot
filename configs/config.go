@@ -15,15 +15,16 @@ import (
 )
 
 type Config struct {
-	MongoURL       string `env:"MONGO_URL" envDefault:"mongodb://localhost:27017"`
-	BotToken       string `env:"TELEGRAM_BOT_TOKEN" envDefault:""`
-	BaseURL        string `env:"BASE_URL" envDefault:"http://dotmarket.me/"`
-	ServerPort     string `env:"SERVER_PORT" envDefault:"8080"`
-	SubmitHTMLPath string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
-	SubmitJSPath   string `env:"SUBMIT_JS_PATH" envDefault:"./web/js/index.js"`
-	SubmitCSSPath  string `env:"SUBMIT_CSS_PATH" envDefault:"./web/css/index.css"`
-	DBPassword     string `env:"DB_PASSWORD" envDefault:"kek"`
-	BotDebug       bool   `env:"BOT_DEBUG" envDefault:"true"`
+	MongoURL        string `env:"MONGO_URL" envDefault:"mongodb://localhost:27017"`
+	BotToken        string `env:"TELEGRAM_BOT_TOKEN" envDefault:""`
+	BaseURL         string `env:"BASE_URL" envDefault:"http://dotmarket.me/"`
+	ServerPort      string `env:"SERVER_PORT" envDefault:"8080"`
+	SubmitHTMLPath  string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
+	SuccessHTMLPath string `env:"SUBMIT_HTML_PATH" envDefault:"./web/success.html"`
+	SubmitJSPath    string `env:"SUBMIT_JS_PATH" envDefault:"./web/js/index.js"`
+	SubmitCSSPath   string `env:"SUBMIT_CSS_PATH" envDefault:"./web/css/index.css"`
+	DBPassword      string `env:"DB_PASSWORD" envDefault:"kek"`
+	BotDebug        bool   `env:"BOT_DEBUG" envDefault:"true"`
 }
 
 func (c *Config) InitBot() (*bot.Bot, error) {
@@ -47,9 +48,10 @@ func (c *Config) InitBot() (*bot.Bot, error) {
 
 func (c *Config) InitServer() (*server.Server, error) {
 	s := &server.Server{
-		SubmitHTMLPath: c.SubmitHTMLPath,
-		SubmitJSPath:   c.SubmitJSPath,
-		SubmitCSSPath:  c.SubmitCSSPath,
+		SubmitHTMLPath:  c.SubmitHTMLPath,
+		SubmitJSPath:    c.SubmitJSPath,
+		SubmitCSSPath:   c.SubmitCSSPath,
+		SuccessHTMLPath: c.SuccessHTMLPath,
 	}
 
 	db, err := c.InitDB()

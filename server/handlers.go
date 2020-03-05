@@ -25,12 +25,8 @@ func (s *Server) healthCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) send(w http.ResponseWriter, r *http.Request) {
-
-	// setCORSHeaders(w)
-	fmt.Println("--------------------")
 	post, _ := UnmarshalPost(r.Body)
 	s.PostChan <- post
-	fmt.Println("lele")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("ok"))
 }
@@ -63,6 +59,17 @@ func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) submitHTML(w http.ResponseWriter, r *http.Request) {
 	f, err := ioutil.ReadFile(s.SubmitHTMLPath)
+	if err != nil {
+		log.Printf("submitHTML:ioutil.ReadFile: [%v]", err.Error())
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(f)
+}
+
+func (s *Server) successHTML(w http.ResponseWriter, r *http.Request) {
+	f, err := ioutil.ReadFile(s.SuccessHTMLPath)
 	if err != nil {
 		log.Printf("submitHTML:ioutil.ReadFile: [%v]", err.Error())
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)

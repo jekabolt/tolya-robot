@@ -113,15 +113,13 @@ function handleSubmit() {
         html => console.log(html)
     );
 
-
-    alert("Успех! Можешь возвращатся обратно в телеграм бота")
-    window.close();
+    // window.close();
     // url = "http://dotmarket.me/api/v1.0/submit/" + id
     // console.log(url);
     // console.log(JSON.stringify(checked));
 
     // status = createRequest(url, JSON.stringify(checked))
-    // window.location.href = "https://telegram.me/tolyahobot"
+    window.location.href = "http://dotmarket.me/success"
 }
 
 

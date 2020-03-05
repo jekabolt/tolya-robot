@@ -5,10 +5,11 @@ import (
 )
 
 type Server struct {
-	DB             *schemas.DB
-	PostChan       chan *schemas.Post
-	Port           string
-	SubmitHTMLPath string
-	SubmitJSPath   string
-	SubmitCSSPath  string
+	DB              *schemas.DB
+	PostChan        chan *schemas.Post
+	Port            string
+	SubmitHTMLPath  string
+	SuccessHTMLPath string
+	SubmitJSPath    string
+	SubmitCSSPath   string
 }

@@ -22,6 +22,7 @@ func (s *Server) Serve() error {
 
 	r.Route("/static", func(r chi.Router) {
 		r.Get("/submit/{id}", s.submitHTML)
+		r.Get("/success", s.successHTML)
 		r.Get("/submit.js", s.submitJS)
 		r.Get("/submit.css", s.submitCSS)
 	})
