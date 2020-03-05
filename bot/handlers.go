@@ -78,6 +78,7 @@ func (b *Bot) handleFAQ(upd tgbotapi.Update) {
 func (b *Bot) handleSettings(upd tgbotapi.Update) {
 
 	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, settingsMessage)
+
 	link := b.BaseURL + "static/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
 	msg.ReplyMarkup = tgbotapi.InlineKeyboardMarkup{
 		InlineKeyboard: [][]tgbotapi.InlineKeyboardButton{
@@ -89,11 +90,12 @@ func (b *Bot) handleSettings(upd tgbotapi.Update) {
 		},
 	}
 
-	b.Bot.Send(msg)
+	_, _ = b.Bot.Send(msg)
 }
 
 func (b *Bot) handleBestOffers(upd tgbotapi.Update) {
-
 	msg := tgbotapi.NewMessage(upd.Message.Chat.ID, BestOffers)
-	b.Bot.Send(msg)
+	msg.ParseMode = "HTML"
+	_, err := b.Bot.Send(msg)
+	fmt.Println("\n\n\n\n handleSettings:", err)
 }

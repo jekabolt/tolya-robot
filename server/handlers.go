@@ -24,6 +24,17 @@ func (s *Server) healthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("OK"))
 }
 
+func (s *Server) send(w http.ResponseWriter, r *http.Request) {
+
+	// setCORSHeaders(w)
+	fmt.Println("--------------------")
+	post, _ := UnmarshalPost(r.Body)
+	s.PostChan <- post
+	fmt.Println("lele")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
+}
+
 func (s *Server) submit(w http.ResponseWriter, r *http.Request) {
 	setCORSHeaders(w)
 	chatID := chi.URLParam(r, "id")

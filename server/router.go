@@ -29,6 +29,7 @@ func (s *Server) Serve() error {
 	r.Route("/api/v1.0", func(r chi.Router) {
 		r.Use(middleware.Logger)
 		r.Post("/submit/{id}", s.submit)
+		r.Post("/send", s.send)
 	})
 
 	log.Println("Listening on :" + s.Port)

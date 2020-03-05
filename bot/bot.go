@@ -6,7 +6,8 @@ import (
 )
 
 type Bot struct {
-	Bot     *tgbotapi.BotAPI
-	DB      *schemas.DB
-	BaseURL string
+	Bot      *tgbotapi.BotAPI
+	DB       *schemas.DB
+	PostChan chan *schemas.Post
+	BaseURL  string
 }

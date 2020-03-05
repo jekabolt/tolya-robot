@@ -55,3 +55,14 @@ type TGUser struct {
 	Submitted bool           `json:"submitted" bson:"chatID"`
 	ChatID    int64          `json:"chatID" bson:"chatID"`
 }
+
+type Post struct {
+	Consumer
+	Title        string   `json:"title" bson:"title"`
+	Price        string   `json:"price" bson:"price"`
+	DiscountRate string   `json:"discountRate" bson:"discountRate"`
+	AboutText    string   `json:"aboutText" bson:"aboutText"`
+	Hashtags     string   `json:"hashtags" bson:"hashtags"`
+	Link         string   `json:"link" bson:"link"`
+	Images       []string `json:"images" bson:"images"`
+}
