@@ -3,6 +3,13 @@ REGISTRY=jekabolt
 IMAGE_NAME=tolya-robot
 VERSION=latest
 
+
+local:
+	grep -lR --exclude=Makefile --exclude-dir=.git  "" . | xargs sed -i 's~http://dotmarket.me~http://localhost:8080~g'
+
+dot:
+	grep -lR --exclude=Makefile --exclude-dir=.git  "" . | xargs sed -i 's~http://localhost:8080~http://dotmarket.me~g'
+
 build:
 	go build -o ./bin/$(IMAGE_NAME) ./cmd/
 
