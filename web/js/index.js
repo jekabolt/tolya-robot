@@ -114,6 +114,8 @@ function handleSubmit() {
     );
 
 
+    alert("Успех! Можешь возвращатся обратно в телеграм бота")
+    window.close();
     // url = "http://dotmarket.me/api/v1.0/submit/" + id
     // console.log(url);
     // console.log(JSON.stringify(checked));
