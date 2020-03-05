@@ -2,6 +2,7 @@ package bot
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/jekabolt/tolya-robot/schemas"
@@ -34,11 +35,14 @@ func (b *Bot) start(upd tgbotapi.Update) {
 	fmt.Println("m ", m)
 	fmt.Println("err ", err)
 
-	b.DB.InitialSubmit(&schemas.TGUser{
+	err = b.DB.InitialSubmit(&schemas.TGUser{
 		User:      upd.Message.From,
 		ChatID:    upd.Message.Chat.ID,
 		Submitted: false,
 	})
+	if err != nil {
+		log.Printf("start:b.DB.InitialSubmit: [%v]", err.Error())
+	}
 
 	link := b.BaseURL + "static/submit/" + strconv.Itoa(int(upd.Message.Chat.ID))
 

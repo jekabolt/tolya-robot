@@ -71,8 +71,8 @@ func (db *DB) InitialSubmit(tgUser *TGUser) error {
 		{"chatID", tgUser.ChatID},
 	}}}
 
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	_, err := db.JoinedCollection.UpdateOne(ctx, filter, update, opts)
+	// ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	_, err := db.JoinedCollection.UpdateOne(context.TODO(), filter, update, opts)
 	if err != nil {
 		return fmt.Errorf("InitialSubmit:db.JoinedCollection.UpdateOne: [%v]", err.Error())
 	}
