@@ -127,8 +127,6 @@ var pipelineGroup = bson.D{{"$group", bson.D{
 }}}
 
 func (db *DB) FetchConsumersForPost(post *Post) ([]string, error) {
-
-	fmt.Printf("post s%+v", *post)
 	pipeline := mongo.Pipeline{
 		{{"$match", bson.D{
 			{"gender", post.Gender},
