@@ -2,6 +2,9 @@ package bot
 
 import (
 	"fmt"
+	"log"
+	"strconv"
+	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/jekabolt/tolya-robot/schemas"
@@ -39,15 +42,35 @@ func (b *Bot) SetHandlers() error {
 }
 
 func (b *Bot) HandlePost(post *schemas.Post) {
-	// PostMessage
-	// "<b>%s</b> \n Цена: <b>%d</b>\n Размеры: <b>%v</b>\n %s \n <a href=" + "%s" + ">ссылка</a>  \n %s"
 
-	// msg := tgbotapi.NewPhotoUpload(132962764, "/Users/jekabolt/Documents/grb-logo.jpg")
-	msg := tgbotapi.NewMediaGroup(132962764, []interface{}{"/Users/jekabolt/Documents/grb-logo.jpg", "/Users/jekabolt/Documents/grb-logo.jpg", "/Users/jekabolt/Documents/grb-logo.jpg"})
-	// msg.Caption = fmt.Sprintf(PostMessage, post.Title, post.Price, post.ShoeSizes, post.AboutText, post.Link, post.Hashtags)
-	// msg.ParseMode = "HTML"
-	// msg.ReplyMarkup
-	b.Bot.Send(msg)
+	ids, err := b.DB.FetchConsumersForPost(post)
+	if err != nil {
+		log.Printf("HandlePost:b.DB.FetchConsumersForPost:err: [%v]", err.Error())
+		return
+	}
+
+	msg, err := buildPostMessage(post)
+	if err != nil {
+		log.Printf("HandlePost:buildPostMessage:err: [%v]", err.Error())
+		return
+	}
+
+	// https://core.telegram.org/bots/faq#how-can-i-message-all-of-my-bot-39s-subscribers-at-once according with
+	batchSize := 30
+	batchTime := time.Second * 1
+	c := 1
+	for _, id := range ids {
+		c++
+		if batchSize < c {
+			time.Sleep(batchTime)
+		}
+		chatID, _ := strconv.Atoi(id)
+		msg.ChatID = int64(chatID)
+		_, err = b.Bot.Send(msg)
+		if err != nil {
+			log.Printf("HandlePost:b.Bot.Send:err: [%v]", err.Error())
+		}
+	}
 
 }
 

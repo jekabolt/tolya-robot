@@ -17,8 +17,13 @@ func main() {
 		log.Fatalf("main:env.Parse [%v]", err.Error())
 	}
 
+	db, err := cfg.InitDB()
+	if err != nil {
+		log.Fatalf("main:bot.InitDB:err [%v]", err.Error())
+	}
+
 	postChan := make(chan *schemas.Post, 10)
-	b, err := cfg.InitBot()
+	b, err := cfg.InitBot(db, postChan)
 	if err != nil {
 		log.Fatalf("main:cfg.InitBot [%v]", err.Error())
 	}
@@ -26,10 +31,7 @@ func main() {
 
 	go b.SetHandlers()
 
-	s, err := cfg.InitServer()
-	if err != nil {
-		log.Fatalf("main:cfg.InitSever [%v]", err.Error())
-	}
+	s := cfg.InitServer(db, postChan)
 	s.PostChan = postChan
 	log.Fatalf("server.Serve():err: [%s]", s.Serve())
 

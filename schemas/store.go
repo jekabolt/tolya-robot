@@ -1,6 +1,9 @@
 package schemas
 
-import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+import (
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 var Genders = map[string]int{
 	"male":   0,
@@ -10,6 +13,12 @@ var Genders = map[string]int{
 var DBName = "users"
 var ConsumersCollectionName = "consumers"
 var JoinedCollectionName = "joined"
+
+const (
+	Top = iota
+	Bottom
+	Shoe
+)
 
 // top sizes
 const (
@@ -40,14 +49,27 @@ const (
 )
 
 type Consumer struct {
-	ChatID                 string `json:"chatID" bson:"chatID"`
-	LAT                    int    `json:"lat" bson:"gender"`
-	Gender                 []int  `json:"gender" bson:"gender"`
-	TopSizes               []int  `json:"topSizes" bson:"topSizes"`
-	BottomSizes            []int  `json:"bottomSizes" bson:"bottomSizes"`
-	ShoeSizes              []int  `json:"shoeSizes" bson:"shoeSizes"`
-	StyleConcepts          []int  `json:"styleConcepts" bson:"styleConcepts"`
-	FavoriteTypesOfClothes []int  `json:"favoriteTypesOfClothes" bson:"favoriteTypesOfClothes"`
+	ID                     primitive.ObjectID `json:"_id" bson:"_id"`
+	ChatID                 string             `json:"chatID" bson:"chatID"`
+	LAT                    int                `json:"lat" bson:"lat"`
+	Gender                 int                `json:"gender" bson:"gender"`
+	TopSizes               []int              `json:"topSizes" bson:"topSizes"`
+	BottomSizes            []int              `json:"bottomSizes" bson:"bottomSizes"`
+	ShoeSizes              []int              `json:"shoeSizes" bson:"shoeSizes"`
+	StyleConcepts          []int              `json:"styleConcepts" bson:"styleConcepts"`
+	FavoriteTypesOfClothes []int              `json:"favoriteTypesOfClothes" bson:"favoriteTypesOfClothes"`
+}
+
+type ConsumerMarshal struct {
+	ID                     primitive.ObjectID `json:"_id" bson:"_id"`
+	ChatID                 string             `json:"chatID" bson:"chatID"`
+	LAT                    int                `json:"lat" bson:"lat"`
+	Gender                 []int              `json:"gender" bson:"gender"`
+	TopSizes               []int              `json:"topSizes" bson:"topSizes"`
+	BottomSizes            []int              `json:"bottomSizes" bson:"bottomSizes"`
+	ShoeSizes              []int              `json:"shoeSizes" bson:"shoeSizes"`
+	StyleConcepts          []int              `json:"styleConcepts" bson:"styleConcepts"`
+	FavoriteTypesOfClothes []int              `json:"favoriteTypesOfClothes" bson:"favoriteTypesOfClothes"`
 }
 
 type TGUser struct {
@@ -57,12 +79,21 @@ type TGUser struct {
 }
 
 type Post struct {
-	Consumer
-	Title        string   `json:"title" bson:"title"`
-	Price        string   `json:"price" bson:"price"`
-	DiscountRate string   `json:"discountRate" bson:"discountRate"`
-	AboutText    string   `json:"aboutText" bson:"aboutText"`
-	Hashtags     string   `json:"hashtags" bson:"hashtags"`
-	Link         string   `json:"link" bson:"link"`
-	Images       []string `json:"images" bson:"images"`
+	PostSelect
+	Title        string `json:"title" bson:"title"`
+	Price        string `json:"price" bson:"price"`
+	DiscountRate string `json:"discountRate" bson:"discountRate"`
+	AboutText    string `json:"aboutText" bson:"aboutText"`
+	Hashtags     string `json:"hashtags" bson:"hashtags"`
+	Link         string `json:"link" bson:"link"`
+	Image        string `json:"image" bson:"image"`
+}
+
+type PostSelect struct {
+	Gender       int   `json:"gender" bson:"gender"`
+	TypeOfCloth  int   `json:"typeOfCloth" bson:"typeOfCloth"`
+	StyleConcept int   `json:"styleConcept" bson:"styleConcept"`
+	TopSizes     []int `json:"topSizes" bson:"topSizes"`
+	BottomSizes  []int `json:"bottomSizes" bson:"bottomSizes"`
+	ShoeSizes    []int `json:"shoeSizes" bson:"shoeSizes"`
 }

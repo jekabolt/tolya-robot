@@ -17,7 +17,7 @@ import (
 type Config struct {
 	MongoURL        string `env:"MONGO_URL" envDefault:"mongodb://localhost:27017"`
 	BotToken        string `env:"TELEGRAM_BOT_TOKEN" envDefault:""`
-	BaseURL         string `env:"BASE_URL" envDefault:"http://dotmarket.me/"`
+	BaseURL         string `env:"BASE_URL" envDefault:"http://localhost:8080/"`
 	ServerPort      string `env:"SERVER_PORT" envDefault:"8080"`
 	SubmitHTMLPath  string `env:"SUBMIT_HTML_PATH" envDefault:"./web/index.html"`
 	SuccessHTMLPath string `env:"SUBMIT_HTML_PATH" envDefault:"./web/success.html"`
@@ -27,44 +27,36 @@ type Config struct {
 	BotDebug        bool   `env:"BOT_DEBUG" envDefault:"true"`
 }
 
-func (c *Config) InitBot() (*bot.Bot, error) {
+func (c *Config) InitBot(db *schemas.DB, postChan chan *schemas.Post) (*bot.Bot, error) {
 	b, err := tgbotapi.NewBotAPI(c.BotToken)
 	if err != nil {
 		return nil, fmt.Errorf("Init:NewBotAPI:err: [%s]", err.Error())
 	}
 	b.Debug = c.BotDebug
 
-	db, err := c.InitDB()
-	if err != nil {
-		log.Fatalf("Init:bot.InitDB:err [%v]", err.Error())
-	}
-
 	return &bot.Bot{
-		Bot:     b,
-		BaseURL: c.BaseURL,
-		DB:      db,
+		Bot:      b,
+		BaseURL:  c.BaseURL,
+		DB:       db,
+		PostChan: postChan,
 	}, nil
 }
 
-func (c *Config) InitServer() (*server.Server, error) {
+func (c *Config) InitServer(db *schemas.DB, postChan chan *schemas.Post) *server.Server {
 	s := &server.Server{
 		SubmitHTMLPath:  c.SubmitHTMLPath,
 		SubmitJSPath:    c.SubmitJSPath,
 		SubmitCSSPath:   c.SubmitCSSPath,
 		SuccessHTMLPath: c.SuccessHTMLPath,
+		Port:            c.ServerPort,
+		DB:              db,
+		PostChan:        postChan,
 	}
-
-	db, err := c.InitDB()
-	if err != nil {
-		log.Fatalf("Init:bot.InitDB:err [%v]", err.Error())
-	}
-	s.DB = db
-	s.Port = c.ServerPort
-
-	return s, nil
+	return s
 }
 
 func (c *Config) InitDB() (*schemas.DB, error) {
+	log.Printf("mongo url: %s", c.MongoURL)
 	var db = &schemas.DB{}
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	clientOptions := options.Client().ApplyURI(c.MongoURL)

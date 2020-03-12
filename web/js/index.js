@@ -100,10 +100,10 @@ function handleSubmit() {
         alert("Выбери как минимум одно поле из каждой категории")
         return
     }
-
+    checked["gender"] = checked["gender"][0]
 
     // const url = "http://example.com";
-    url = "http://dotmarket.me/api/v1.0/submit/" + id
+    url = "http://localhost:8080/api/v1.0/submit/" + id
     fetch(url, {
         method: "POST",
         body: JSON.stringify(checked),
@@ -114,12 +114,12 @@ function handleSubmit() {
     );
 
     // window.close();
-    // url = "http://dotmarket.me/api/v1.0/submit/" + id
+    // url = "http://localhost:8080/api/v1.0/submit/" + id
     // console.log(url);
     // console.log(JSON.stringify(checked));
 
     // status = createRequest(url, JSON.stringify(checked))
-    window.location.href = "http://dotmarket.me/success"
+    // window.location.href = "http://localhost:8080/success"
 }
 
 
