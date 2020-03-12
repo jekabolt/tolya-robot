@@ -120,7 +120,7 @@ function handleSubmit() {
 
     // status = createRequest(url, JSON.stringify(checked))
     alert("Успех! Можешь возвращатся обратно в телеграм бота")
-    window.location.href = "t.me/dotmarket_bot"
+    window.location.href = "https://t.me/dotmarket_bot"
 
 }
 
