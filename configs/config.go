@@ -2,8 +2,10 @@ package configs
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -28,7 +30,11 @@ type Config struct {
 }
 
 func (c *Config) InitBot(db *schemas.DB, postChan chan *schemas.Post) (*bot.Bot, error) {
-	b, err := tgbotapi.NewBotAPI(c.BotToken)
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	b, err := tgbotapi.NewBotAPIWithClient(c.BotToken, client)
 	if err != nil {
 		return nil, fmt.Errorf("Init:NewBotAPI:err: [%s]", err.Error())
 	}

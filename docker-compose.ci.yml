@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  database:
+    env_file:
+        - .env
+    image: docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:a3fea8a
+    # volumes:
+    #   - /home/ # persistent database data.
+    ports:
+      - 80:80
