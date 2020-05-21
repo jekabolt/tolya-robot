@@ -1,3 +1,5 @@
+name: Go
+
 on:
   push:
     branches: [ master ]
@@ -28,15 +30,4 @@ jobs:
 
     - name: Push image to Docker Hub
       run: docker push jekabolt/tolya-robot
-
-    # - name: Update deployment file
-    #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|jekabolt/tolya-robot:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
-
-    - name: Install doctl
-      uses: digitalocean/action-doctl@v2
-      with:
-        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-
-
 
