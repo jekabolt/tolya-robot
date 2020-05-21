@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot:latest .
 
     - name: Log in to GitHub Packages
       env:
@@ -26,9 +26,9 @@ jobs:
       run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
      
     - name: Push image to GitHub Packages
-      run: docker push docker.pkg.github.com/jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7)
+      run: docker push docker.pkg.github.com/jekabolt/tolya-robot:latest
         
-    
+      
     # - name: Build container image
     #   run: docker build -t jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
 
