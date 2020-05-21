@@ -16,18 +16,32 @@ jobs:
     - name: Checkout master
       uses: actions/checkout@master
 
-    # - name: Update SHA
-    #   run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
-
     - name: Build container image
-      run: docker build -t jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
 
-    - name: Docker Login
+    - name: Log in to GitHub Packages
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
+      run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+     
+    - name: Push image to GitHub Packages
+      run: docker push docker.pkg.github.com/jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7)
+        
+    
+    # - name: Build container image
+    #   run: docker build -t jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
 
-    - name: Push image to Docker Hub
-      run: docker push jekabolt/tolya-robot
+    # - name: Docker Login
+    #   env:
+    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    #   run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
+    # - name: Push image to Docker Hub
+    #   run: docker push jekabolt/tolya-robot
+      
+    # - name: Install doctl
+    #   uses: digitalocean/action-doctl@v2
+    #   with:
+    #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
