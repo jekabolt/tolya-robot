@@ -69,6 +69,5 @@ jobs:
         ssh -tt -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
           cd /root/app
           source .env
-          docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker-compose -f docker-compose.ci.yml up -d
         ENDSSH
