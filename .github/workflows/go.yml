@@ -17,30 +17,56 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      # run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest
 
     - name: Log in to GitHub Packages
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
       run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-     
+
+    - name: Add environment variables to .env
+      run: |
+        echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+
+    - name: Build images
+      run: |
+        docker-compose -f docker-compose.ci.yml build
+
     - name: Push image to GitHub Packages
-      run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7)
-      
-    # - name: Build container image
-    #   run: docker build -t jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      # run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7)
+      run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest
 
-    # - name: Docker Login
-    #   env:
-    #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-    #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-    #   run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: build
+    steps:  
+    
+    - name: Add the private SSH key to the ssh-agent
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        mkdir -p ~/.ssh
+        ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
 
-    # - name: Push image to Docker Hub
-    #   run: docker push jekabolt/tolya-robot
-      
-    # - name: Install doctl
-    #   uses: digitalocean/action-doctl@v2
-    #   with:
-    #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Add environment variables to .env
+        run: |
+          echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+
+    - name: Build and deploy images on DigitalOcean
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
+      run: |
+        scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/app
+        ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
+          cd /app
+          source .env
+          docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker-compose -f docker-compose.prod.yml up -d
+        ENDSSH
