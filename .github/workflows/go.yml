@@ -66,7 +66,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
       run: |
         scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.ci.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/root/app
-        ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
+        ssh -tt -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
           cd /root/app
           source .env
           docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
