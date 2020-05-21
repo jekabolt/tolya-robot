@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Build container image
-      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
 
     - name: Log in to GitHub Packages
       env:
