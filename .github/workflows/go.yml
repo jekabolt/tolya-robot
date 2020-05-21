@@ -1,30 +1,49 @@
-name: Go
+
+name: cd
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-jobs:
-
-  build:
-    name: Build
-    runs-on: self-hosted
-    steps:
-
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.13
-      id: go
-
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-
-    # - name: test
-    #   run: go test ./...
-    
-    - name: Update SHA
-      run: echo ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} + "kek"
-
+    push:
+      branches:
+        - master
+  
+  jobs:
+  
+    build:
+      name: Build, push, and deploy
+      runs-on: self-hosted
+      steps:
+  
+      - name: Checkout master
+        uses: actions/checkout@master
+  
+      - name: Update SHA
+        run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/site/_meta
+  
+      - name: Build container image
+        run: docker build -t jekabolt/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+  
+      - name: Docker Login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  
+      - name: Push image to Docker Hub
+        run: docker push jekabolt/tolya-robot
+  
+      # - name: Update deployment file
+      #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|jekabolt/tolya-robot:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+  
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+  
+    #   - name: Save DigitalOcean kubeconfig
+    #     run: doctl kubernetes cluster kubeconfig save actions-example-k8s-1-16
+  
+    #   - name: Deploy to DigitalOcean Kubernetes
+    #     run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+  
+    #   - name: Verify deployment
+    #     run: kubectl rollout status deployment/static-example
