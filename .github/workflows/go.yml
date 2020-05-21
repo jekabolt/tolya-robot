@@ -27,8 +27,7 @@ jobs:
       run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Add environment variables to .env
-      run: |
-        echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+      run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
 
     - name: Build images
       run: |
@@ -54,8 +53,7 @@ jobs:
         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
 
     - name: Add environment variables to .env
-        run: |
-          echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+      run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
 
     - name: Build and deploy images on DigitalOcean
       env:
