@@ -19,5 +19,5 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/root/app/db
-  # volumes:
-  #   mongodb_data_container:
+  volumes:
+    mongodb_data_container:
