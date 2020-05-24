@@ -70,4 +70,4 @@ jobs:
           cd /root/app
           source .env
           docker-compose -f docker-compose.ci.yml up -d
-        ENDSSH
+        exit
