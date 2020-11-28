@@ -1,0 +1,32 @@
+
+
+
+language: go
+
+go:
+  - 1.11
+
+services:
+  - docker  
+
+addons:
+  ssh_known_hosts: dotmarket.me
+
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv
+    -in travis_rsa.enc -out travis_rsa -d
+  - chmod 600 travis_rsa
+  - mv travis_rsa ~/.ssh/id_rsa
+  - docker pull jekabolt/tolya-robot
+  - echo $'\n\n\n kek2 \n\n\n'
+
+install:
+  - echo $'\n\n\n kek2 \n\n\n'
+ 
+
+script:
+ - echo $'\n\n\n kek3 \n\n\n'
+
+after_success:
+ - echo $'\n\n\n kek4 \n\n\n'

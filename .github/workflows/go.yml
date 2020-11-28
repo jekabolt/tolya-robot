@@ -50,12 +50,6 @@ jobs:
         ssh-keyscan {{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} >> ~/.ssh/known_hosts
         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
 
-      # run: |
-        # mkdir -p ~/.ssh
-        # # ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-        # ssh-keyscan {{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} >> ~/.ssh/known_hosts
-        # ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
-
     - name: Add environment variables to .env
       run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
 
