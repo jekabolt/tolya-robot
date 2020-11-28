@@ -22,7 +22,7 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} .
   - docker tag ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
-  - docker push ${TRAVIS_REPO_SLUG}/${IMAGE_VERSION}
+  - docker push ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
 
 install:
   - echo $'\n\n\n kek2 \n\n\n'
