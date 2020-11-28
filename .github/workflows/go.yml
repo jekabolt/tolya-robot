@@ -1,67 +1,67 @@
-name: Go
+# name: Go
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
-jobs:
+# jobs:
 
-  build:
-    name: Build
-    runs-on: self-hosted
-    steps:
+#   build:
+#     name: Build
+#     runs-on: self-hosted
+#     steps:
 
-    - name: Checkout master
-      uses: actions/checkout@master
+#     - name: Checkout master
+#       uses: actions/checkout@master
 
-    - name: Build container image
-      # run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
-      run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest .
+#     - name: Build container image
+#       # run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7) .
+#       run: docker build -t docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest .
 
-    - name: Log in to GitHub Packages
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
-      run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#     - name: Log in to GitHub Packages
+#       env:
+#         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
+#       run: docker login docker.pkg.github.com -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-    - name: Add environment variables to .env
-      run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+#     - name: Add environment variables to .env
+#       run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
 
-    - name: Build images
-      run: |
-        docker-compose -f docker-compose.ci.yml build
+#     - name: Build images
+#       run: |
+#         docker-compose -f docker-compose.ci.yml build
 
-    - name: Push image to GitHub Packages
-      # run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7)
-      run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest
+#     - name: Push image to GitHub Packages
+#       # run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:$(echo $GITHUB_SHA | head -c7)
+#       run: docker push docker.pkg.github.com/jekabolt/tolya-robot/tolya-robot:latest
 
-  deploy:
-    name: Deploy
-    runs-on: self-hosted
-    needs: build
-    steps:  
+#   deploy:
+#     name: Deploy
+#     runs-on: self-hosted
+#     needs: build
+#     steps:  
     
-    - name: Add the private SSH key to the ssh-agent
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-      run: |
-        ssh-keyscan {{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} >> ~/.ssh/known_hosts
-        ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
+#     - name: Add the private SSH key to the ssh-agent
+#       env:
+#         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+#       run: |
+#         ssh-keyscan {{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} >> ~/.ssh/known_hosts
+#         ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"  
 
-    - name: Add environment variables to .env
-      run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
+#     - name: Add environment variables to .env
+#       run: echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
 
-    - name: Build and deploy images on DigitalOcean
-      env:
-        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
-      run: |
-        scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.ci.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/root/app
-        ssh -tt -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
-          cd /root/app
-          source .env
-          docker-compose -f docker-compose.ci.yml up -d
-        exit
+#     - name: Build and deploy images on DigitalOcean
+#       env:
+#         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+#         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         DOCKER_PASSWORD: ${{ secrets.GIT_HUB_ACESS_TOKEN }}
+#       run: |
+#         scp  -o StrictHostKeyChecking=no -r ./.env ./docker-compose.ci.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/root/app
+#         ssh -tt -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
+#           cd /root/app
+#           source .env
+#           docker-compose -f docker-compose.ci.yml up -d
+#         exit
