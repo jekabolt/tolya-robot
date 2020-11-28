@@ -17,7 +17,8 @@ before_install:
   - chmod 600 travis_rsa
   - mv travis_rsa ~/.ssh/id_rsa
   # build docker image and push to docker hub
-  - export IMAGE_VERSION = ${TRAVIS_COMMIT:0:5}
+ 
+  - export IMAGE_VERSION=$(echo ${TRAVIS_COMMIT::5})
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} .
   - docker tag ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
