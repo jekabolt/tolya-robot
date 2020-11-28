@@ -7,8 +7,11 @@ services:
   - docker  
 
 addons:
-  ssh_known_hosts: dotmarket.me
-
+  ssh_known_hosts: 
+  
+addons:
+  sshknownhosts:
+  - ${SSH_KNOWNHOST_DOTMARKET} # your droplet IP goes here
 
 before_install:
   # add travis_rsa to connect to DO for deploy
@@ -16,20 +19,24 @@ before_install:
     -in travis_rsa.enc -out travis_rsa -d
   - chmod 600 travis_rsa
   - mv travis_rsa ~/.ssh/id_rsa
+
+install:
+  # replace static addresses to DO host
+  - grep -lR --exclude=Makefile --exclude-dir=.git  "" . | xargs sed -i 's~http://localhost:8080~http://dotmarket.me~g'
   # build docker image and push to docker hub
- 
   - export IMAGE_VERSION=$(echo ${TRAVIS_COMMIT::5})
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} .
   - docker tag ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
   - docker push ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
-
-install:
-  - echo $'\n\n\n kek2 \n\n\n'
  
-
 script:
- - echo $'\n\n\n kek3 \n\n\n'
+#  - echo $'\n\n\n kek3 \n\n\n'
 
 after_success:
- - echo $'\n\n\n kek4 \n\n\n'
+  # deploy
+  - ssh -tt -o StrictHostKeyChecking=no $REMOTE_USER@$SSH_KNOWNHOST_DOTMARKET << 'ENDSSH'
+      cd /root/app
+      docker pull ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
+      docker run -d ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
+      exit
