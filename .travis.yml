@@ -2,7 +2,7 @@ language: generic
 services:
   - docker
 addons:
-  sshknownhosts:
+  ssh_known_hostsssh_known_hosts:
   - "${SSH_KNOWNHOST}"
 before_install:
   - openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv
