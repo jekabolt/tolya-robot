@@ -19,4 +19,4 @@ install:
   - docker push ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
 script: 
 after_success:
-  - bash ./deploy-test.sh
+  # - bash ./deploy-test.sh
