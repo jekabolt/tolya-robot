@@ -1,0 +1,22 @@
+
+
+language: generic
+services:
+  - docker
+addons:
+  ssh_known_hostsssh_known_hosts:
+  - "${SSH_KNOWNHOST}"
+before_install:
+  - openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv
+    -in travis_rsa.enc -out travis_rsa -d
+
+install:
+  - grep -lR --exclude=Makefile --exclude-dir=.git  "" . | xargs sed -i 's~http://localhost:8080~http://dotmarket.me~g'
+  - export IMAGE_VERSION=$(echo ${TRAVIS_COMMIT::5})
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build --no-cache -t ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} .
+  - docker tag ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION} ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
+  - docker push ${TRAVIS_REPO_SLUG}:${IMAGE_VERSION}
+script: 
+after_success:
+  # - bash ./deploy-test.sh

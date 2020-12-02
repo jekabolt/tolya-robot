@@ -18,9 +18,6 @@ RUN go build -o ./bin/tolya-robot ./cmd/
 FROM alpine:latest
 
 WORKDIR /go/src/github.com/jekabolt/tolya-robot
-# RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-# RUN apk add --no-cache git libgit2-dev alpine-sdk
-# RUN apk --no-cache add curl
 
 COPY --from=0 /go/src/github.com/jekabolt/tolya-robot .
 
