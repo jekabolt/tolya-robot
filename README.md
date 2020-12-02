@@ -20,4 +20,7 @@ Using tolya-robot
 ``make run`` - run locally  
 ``make image`` - build and tag docker image  
 
-deploy via travis ci and webhook on pushed image
+deploy via travis ci and webhook on pushed image   
+
+TODO:  
+How to setup deploy  
